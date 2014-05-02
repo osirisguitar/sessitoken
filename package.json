@@ -1,0 +1,26 @@
+{
+  "name": "sessitoken",
+  "version": "0.0.1",
+  "description": "Handles session or token based storing with sliding expiration",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:JohanObrink/sessitoken.git"
+  },
+  "keywords": [
+    "node",
+    "session",
+    "token",
+    "sliding",
+    "expiration"
+  ],
+  "author": "Johan Öbrink <johan.obrink@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JohanObrink/sessitoken/issues"
+  },
+  "homepage": "https://github.com/JohanObrink/sessitoken"
+}
