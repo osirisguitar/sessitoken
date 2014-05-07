@@ -1,6 +1,6 @@
 {
   "name": "sessitoken",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Handles session or token based storing with sliding expiration",
   "main": "index.js",
   "scripts": {
@@ -22,5 +22,22 @@
   "bugs": {
     "url": "https://github.com/JohanObrink/sessitoken/issues"
   },
-  "homepage": "https://github.com/JohanObrink/sessitoken"
+  "homepage": "https://github.com/JohanObrink/sessitoken",
+  "devDependencies": {
+    "sinon-chai": "~2.5.0",
+    "chai": "~1.9.1",
+    "sinon": "~1.9.1",
+    "mocha": "~1.18.2",
+    "gulp-mocha": "~0.4.1",
+    "gulp": "~3.6.2",
+    "gulp-jshint": "~1.5.5",
+    "jshint-stylish": "~0.2.0",
+    "gulp-plumber": "~0.6.1",
+    "proxyquire": "~0.6.0"
+  },
+  "dependencies": {
+    "q": "~1.0.1",
+    "lodash": "~2.4.1",
+    "MD5": "~1.2.1"
+  }
 }
