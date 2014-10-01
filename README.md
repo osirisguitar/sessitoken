@@ -45,7 +45,7 @@ var options = {
   activeDuration: 5 * 60 * 1000, // 5 minutes - default. If the time to expiration < active duration, it will be increased by active duration
   token: 'auth', // a header named auth will be accepted and req.auth will be set
   cookie: 'authCookie' // a cookie named authCookie will be accepted and set,
-  store: new sessitoken.MongoStore({ connectionString: 'mongodb://localhost/mydatabase', collection: 'sessions' }) // database and collection in which to store sessions 
+  store: new sessitoken.MongoStore({ connectionString: 'mongodb://localhost/mydatabase', collection: 'sessions' }) // database and collection in which to store sessions (connectionString is requireed, collection 'sessions' - default)
 };
 
 server.use(sessitoken.sessitoken(options));
