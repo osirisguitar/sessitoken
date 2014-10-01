@@ -1,2 +1,2 @@
 'use strict';
-module.exports = require('./lib/sessitoken');
+module.exports = require('./lib/sessitoken.js');
