@@ -18,6 +18,7 @@
     "expiration"
   ],
   "author": "Johan Öbrink <johan.obrink@gmail.com>",
+  "contributors": [ { "name": "Anders Norrback Bornholm", "email": "anders@bornholm.se", "url": "https://github.com/osirisguitar" } ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/JohanObrink/sessitoken/issues"
