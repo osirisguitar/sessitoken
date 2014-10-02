@@ -47,7 +47,7 @@ describe('sessitoken', function () {
   });
 
   it('returns a function taking three arguments', function () {
-    var middleware = sessitoken();
+    var middleware = sessitoken.sessitoken();
     expect(middleware).to.be.a('function');
     expect(middleware).to.have.length(3);
   });
@@ -55,7 +55,7 @@ describe('sessitoken', function () {
   describe('cookie', function () {
     var middleware;
     beforeEach(function () {
-      middleware = sessitoken({ store: store, cookie: 'auth' });
+      middleware = sessitoken.sessitoken({ store: store, cookie: 'auth' });
     });
     it('tries to get session by cookie value', function () {
       req.cookies = { auth: 'abcdef' };
@@ -76,7 +76,7 @@ describe('sessitoken', function () {
   describe('token', function () {
     var middleware;
     beforeEach(function () {
-      middleware = sessitoken({ store: store, token: 'authToken' });
+      middleware = sessitoken.sessitoken({ store: store, token: 'authToken' });
     });
     it('tries to get session by cookie value', function () {
       req.headers = { authToken: 'abcdef' };
@@ -97,7 +97,7 @@ describe('sessitoken', function () {
   describe('none', function () {
     var middleware;
     beforeEach(function () {
-      middleware = sessitoken({ store: store, token: 'authToken', cookie: 'auth' });
+      middleware = sessitoken.sessitoken({ store: store, token: 'authToken', cookie: 'auth' });
     });
 
     it('does not call store.get before next', function () {
@@ -121,7 +121,7 @@ describe('sessitoken', function () {
   describe('res finish', function () {
     var middleware;
     beforeEach(function () {
-      middleware = sessitoken({ store: store, token: 'authToken', cookie: 'auth' });
+      middleware = sessitoken.sessitoken({ store: store, token: 'authToken', cookie: 'auth' });
     });
 
     it('updates session data on response finish event', function () {

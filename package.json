@@ -18,7 +18,13 @@
     "expiration"
   ],
   "author": "Johan Öbrink <johan.obrink@gmail.com>",
-  "contributors": [ { "name": "Anders Norrback Bornholm", "email": "anders@bornholm.se", "url": "https://github.com/osirisguitar" } ],
+  "contributors": [
+    {
+      "name": "Anders Norrback Bornholm",
+      "email": "anders@bornholm.se",
+      "url": "https://github.com/osirisguitar"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/JohanObrink/sessitoken/issues"
@@ -34,7 +40,8 @@
     "gulp-jshint": "~1.5.5",
     "jshint-stylish": "~0.2.0",
     "gulp-plumber": "~0.6.1",
-    "proxyquire": "~0.6.0"
+    "proxyquire": "~0.6.0",
+    "sinon-promise": "0.0.2"
   },
   "dependencies": {
     "q": "~1.0.1",
