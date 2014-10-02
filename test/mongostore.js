@@ -71,7 +71,7 @@ describe('MongoStore', function () {
       sessionCollection.remove.resolve({});
       expect(listener).calledWith({});
     });
-    it('returns an empty object if session does not exist in file', function () {
+    it('returns an empty object if session does not exist in database', function () {
       var listener = sinon.spy();
       store.get('baz').then(listener);
       sessionCollection.findOne.resolve();
