@@ -31,7 +31,6 @@ describe('sessitoken', function () {
 
     req = {};
     res = {
-      on: sinon.stub(),
       setHeader: sinon.spy()
     };
     next = sinon.spy();
@@ -118,10 +117,24 @@ describe('sessitoken', function () {
     });
   });
 
-  describe('res finish', function () {
+  describe('finalizing response', function () {
     var middleware;
     beforeEach(function () {
       middleware = sessitoken.sessitoken({ store: store, token: 'authToken', cookie: 'auth' });
+    });
+    it('updates session data on response finish event', function () {
+      req.headers = { authToken: 'abcdef' };
+      middleware(req, res, next);
+
+      var session = { expires: 0, data: { foo: 'bar' } };
+      store.get.resolve(session);
+      req.session.herp = 'derp';
+
+      // call the res.end function
+      res.end();
+
+      expect(store.update).calledOnce;
+      expect(store.update).calledWith('abcdef', session.data);
     });
 
     it('updates session data on response finish event', function () {
@@ -130,26 +143,66 @@ describe('sessitoken', function () {
 
       var session = { expires: 0, data: { foo: 'bar' } };
       store.get.resolve(session);
-      expect(res.on).calledOnce;
-      expect(res.on).calledWith('finish');
-
       req.session.herp = 'derp';
 
-      res.on.withArgs('finish').firstCall.yield();
+      // call the res.end function
+      res.end();
+
       expect(store.update).calledOnce;
       expect(store.update).calledWith('abcdef', session.data);
     });
 
-    it('does not update session data if not changed', function () {
+    it('works with res.send', function () {
+      res.send = sinon.spy();
+      var _send = res.send;
+
       req.headers = { authToken: 'abcdef' };
       middleware(req, res, next);
 
       var session = { expires: 0, data: { foo: 'bar' } };
       store.get.resolve(session);
-      expect(res.on).calledOnce;
-      expect(res.on).calledWith('finish');
+      req.session.herp = 'derp';
 
-      res.on.withArgs('finish').firstCall.yield();
+      // call the res.end function
+      res.send();
+
+      // resolve the store update promise
+      store.update.resolve();
+
+      expect(_send).calledOnce;
+    });
+
+    it('works with res.end', function () {
+      res.end = sinon.spy();
+      var _end = res.end;
+
+      req.headers = { authToken: 'abcdef' };
+      middleware(req, res, next);
+
+      var session = { expires: 0, data: { foo: 'bar' } };
+      store.get.resolve(session);
+      req.session.herp = 'derp';
+
+      // call the res.end function
+      res.end();
+
+      // resolve the store update promise
+      store.update.resolve();
+
+      expect(_end).calledOnce;
+    });
+
+    it('does not update session data if not changed', function () {
+      req.session = { foo: 'bar' };
+      req.headers = { authToken: 'abcdef' };
+      middleware(req, res, next);
+
+      var session = { expires: 0, data: { foo: 'bar' } };
+      store.get.resolve(session);
+
+      // call the res.end function
+      res.end();
+
       expect(store.update).calledWithExactly('abcdef');
     });
   });
