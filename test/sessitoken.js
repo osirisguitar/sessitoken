@@ -3,26 +3,22 @@
 var chai = require('chai'),
   expect = chai.expect,
   sinon = require('sinon'),
-  Q = require('q'),
   proxyquire = require('proxyquire');
+var sinonPromise = require('sinon-promise');
 
 chai.use(require('sinon-chai'));
 
-sinon.promise = function () {
-  var deferred = Q.defer();
-  var stub = sinon.stub().returns(deferred.promise);
-  stub.resolve = deferred.resolve.bind(deferred);
-  stub.reject = deferred.reject.bind(deferred);
-  return stub;
-};
-
 describe('sessitoken', function () {
-  var sessitoken, sandbox, clock, store, req, res, next, tokenGenerator;
+  var sessitoken, store, req, res, next, tokenGenerator;
+
+  before(function() {
+    sinonPromise(sinon);
+  });
 
   beforeEach(function () {
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(process, 'nextTick').yields();
-    clock = sandbox.useFakeTimers();
+    // sandbox = sinon.sandbox.create();
+    // sandbox.stub(process, 'nextTick').yields();
+    //clock = sandbox.useFakeTimers();
 
     store = {
       get: sinon.promise(),
@@ -39,10 +35,14 @@ describe('sessitoken', function () {
       generate: sinon.stub().returns('abcdef')
     };
 
-    sessitoken = proxyquire('../lib/sessitoken', { './tokengenerator': tokenGenerator });
+    sessitoken = proxyquire('../lib/sessitoken', { 
+      './tokengenerator': tokenGenerator,
+      './filestore': sinon.stub().returns(store),
+      './mongostore': store
+    });
   });
   afterEach(function () {
-    sandbox.restore();
+    // sandbox.restore();
   });
 
   it('returns a function taking three arguments', function () {
@@ -207,16 +207,16 @@ describe('sessitoken', function () {
     });
   });
 
-  describe.only('ignoreHeader', function () {
+  describe('ignoreHeader', function () {
     var middleware;
 
     beforeEach(function () {
-      middleware = sessitoken.sessitoken({ store: store, ignoreHeader: 'Authorization' });
+      middleware = sessitoken.sessitoken({ store: store, token: 'authToken', ignoreHeader: 'Authorization' });
       res.end = sinon.spy();
     });
     
     it('does not save the session when ignored header is present', function () {
-      req.headers = { Authorization: '1234' };
+      req.headers = { Authorization: '1234', authToken: '123' };
 
       middleware(req, res, next);
       var session = { expires: 0, data: { foo: 'bar' } };
@@ -227,7 +227,7 @@ describe('sessitoken', function () {
     });
 
     it('does save the session when ignored header is not present', function () {
-      req.headers = { };
+      req.headers = { authToken: '123' };
 
       middleware(req, res, next);
       var session = { expires: 0, data: { foo: 'bar' } };

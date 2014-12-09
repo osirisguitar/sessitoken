@@ -15,10 +15,6 @@ describe('MongoStore', function () {
     sinonPromise(sinon);
   });
 
-  after(function() {
-    sinonPromise.restore();
-  });
-
   beforeEach(function () {
     sessionCollection = {
       findOne: sinon.promise(),

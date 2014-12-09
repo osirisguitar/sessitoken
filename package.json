@@ -31,17 +31,17 @@
   },
   "homepage": "https://github.com/JohanObrink/sessitoken",
   "devDependencies": {
-    "sinon-chai": "~2.5.0",
     "chai": "~1.9.1",
-    "sinon": "~1.9.1",
-    "mocha": "~1.18.2",
-    "gulp-mocha": "~0.4.1",
     "gulp": "~3.8.10",
     "gulp-jshint": "~1.5.5",
-    "jshint-stylish": "~0.2.0",
+    "gulp-mocha": "~0.4.1",
     "gulp-plumber": "~0.6.1",
+    "jshint-stylish": "~0.2.0",
+    "mocha": "~1.18.2",
     "proxyquire": "~0.6.0",
-    "sinon-promise": "0.0.2"
+    "sinon": "~1.9.1",
+    "sinon-chai": "~2.5.0",
+    "sinon-promise": "^0.1.3"
   },
   "dependencies": {
     "q": "~1.0.1",
