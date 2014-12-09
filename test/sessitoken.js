@@ -206,4 +206,35 @@ describe('sessitoken', function () {
       expect(store.update).calledWithExactly('abcdef');
     });
   });
+
+  describe.only('ignoreHeader', function () {
+    var middleware;
+
+    beforeEach(function () {
+      middleware = sessitoken.sessitoken({ store: store, ignoreHeader: 'Authorization' });
+      res.end = sinon.spy();
+    });
+    
+    it('does not save the session when ignored header is present', function () {
+      req.headers = { Authorization: '1234' };
+
+      middleware(req, res, next);
+      var session = { expires: 0, data: { foo: 'bar' } };
+      store.get.resolve(session);
+      res.end();
+
+      expect(store.update).not.called;
+    });
+
+    it('does save the session when ignored header is not present', function () {
+      req.headers = { };
+
+      middleware(req, res, next);
+      var session = { expires: 0, data: { foo: 'bar' } };
+      store.get.resolve(session);
+      res.end();
+
+      expect(store.update).calledOnce;
+    });
+  });
 });
